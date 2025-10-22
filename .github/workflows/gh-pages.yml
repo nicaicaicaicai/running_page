@@ -95,8 +95,8 @@ jobs:
         run: pnpm install
       - name: Build
         env:
-          REPO_NAME: ${{ github.event.repository.name }}
-        run: PATH_PREFIX=/running_page/ pnpm build
+          PATH_PREFIX: /running_page/
+        run: pnpm build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
