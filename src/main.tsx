@@ -12,6 +12,8 @@ import {
 import '@/styles/index.css';
 import { withOptionalGAPageTracking } from './utils/trackRoute';
 import HomePage from '@/pages/total';
+import BlogIndex from '@/pages/blog/index';
+import BlogPost from '@/pages/blog/[id]';
 
 if (USE_GOOGLE_ANALYTICS) {
   ReactGA.initialize(GOOGLE_ANALYTICS_TRACKING_ID);
@@ -26,6 +28,14 @@ const routes = createBrowserRouter(
     {
       path: 'summary',
       element: withOptionalGAPageTracking(<HomePage />),
+    },
+    {
+      path: 'blog',
+      element: withOptionalGAPageTracking(<BlogIndex />),
+    },
+    {
+      path: 'blog/:id',
+      element: withOptionalGAPageTracking(<BlogPost />),
     },
     {
       path: '*',

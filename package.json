@@ -42,7 +42,8 @@
     "lint": "eslint src --ext .ts,.tsx --fix",
     "check": "prettier --check \"src/main.tsx\" \"src/**/*.{css,module.css,json,ts,tsx}\" \"*.{yaml,json,ts}\"",
     "format": "prettier --write \"src/main.tsx\" \"src/**/*.{css,module.css,json,ts,tsx}\" \"*.{yaml,json,ts}\"",
-    "ci": "pnpm run format && pnpm run lint && pnpm run build"
+    "ci": "pnpm run format && pnpm run lint && pnpm run build",
+    "blog:sync": "tsx scripts/sync-blog.ts"
   },
   "engineStrict": true,
   "browserslist": "defaults, not ie 11",
@@ -57,7 +58,9 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.32.0",
     "@tailwindcss/vite": "^4.1.11",
+    "@types/fs-extra": "^11.0.4",
     "@types/geojson": "^7946.0.14",
+    "@types/glob": "^9.0.0",
     "@types/mapbox__polyline": "^1.0.2",
     "@types/node": "^24.2.1",
     "@types/prop-types": "^15.7.15",
@@ -70,10 +73,14 @@
     "eslint-plugin-prettier": "^5.5.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.1.0",
+    "fs-extra": "^11.3.2",
+    "glob": "^11.0.3",
     "globals": "^16.3.0",
+    "gray-matter": "^4.0.3",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.13",
     "tailwindcss": "^4.1.10",
+    "tsx": "^4.20.6",
     "typescript": "^5.2.2"
   },
   "pnpm": {
