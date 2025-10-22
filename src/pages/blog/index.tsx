@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
-import { blogPosts, getAllTags, getPostsByTag, sortPostsByDate, type BlogPost } from '@/static/blog-data';
+import {
+  blogPosts,
+  getAllTags,
+  getPostsByTag,
+  sortPostsByDate,
+} from '@/static/blog-data';
 
 /**
  * 博客列表页面组件
@@ -28,10 +33,13 @@ const BlogIndex = () => {
 
     // 按搜索词筛选
     if (searchTerm) {
-      posts = posts.filter(post =>
-        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+      posts = posts.filter(
+        (post) =>
+          post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          post.tags.some((tag) =>
+            tag.toLowerCase().includes(searchTerm.toLowerCase())
+          )
       );
     }
 
@@ -40,7 +48,7 @@ const BlogIndex = () => {
 
   // 精选文章
   const featuredPosts = useMemo(() => {
-    return blogPosts.filter(post => post.featured);
+    return blogPosts.filter((post) => post.featured);
   }, []);
 
   /**
@@ -51,7 +59,7 @@ const BlogIndex = () => {
     return date.toLocaleDateString('zh-CN', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -67,7 +75,10 @@ const BlogIndex = () => {
     <Layout>
       <Helmet>
         <title>博客 - {siteTitle}</title>
-        <meta name="description" content="老潘的跑步博客，分享跑步心得、经验和故事" />
+        <meta
+          name="description"
+          content="老潘的跑步博客，分享跑步心得、经验和故事"
+        />
       </Helmet>
 
       <div className="mx-auto max-w-6xl px-4 py-8">
@@ -121,7 +132,7 @@ const BlogIndex = () => {
                         ))}
                       </div>
                       <span className="text-sm text-gray-500 dark:text-gray-400">
-                        {post.readTime} 分钟阅读
+                        {post.readingTime} 分钟阅读
                       </span>
                     </div>
                   </div>
@@ -144,8 +155,18 @@ const BlogIndex = () => {
                 className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 pl-10 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-400"
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                <svg
+                  className="h-5 w-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
                 </svg>
               </div>
             </div>
@@ -218,7 +239,7 @@ const BlogIndex = () => {
                         {formatDate(post.date)}
                       </span>
                       <span className="text-sm text-gray-500 dark:text-gray-400">
-                        {post.readTime} 分钟阅读
+                        {post.readingTime} 分钟阅读
                       </span>
                       <div className="flex flex-wrap gap-2">
                         {post.tags.map((tag) => (
@@ -277,7 +298,10 @@ const BlogIndex = () => {
             </div>
             <div>
               <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                {Math.round(blogPosts.reduce((sum, post) => sum + post.readTime, 0) / blogPosts.length)}
+                {Math.round(
+                  blogPosts.reduce((sum, post) => sum + post.readingTime, 0) /
+                    blogPosts.length
+                )}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-300">
                 平均阅读时长(分钟)

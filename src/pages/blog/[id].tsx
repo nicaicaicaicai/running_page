@@ -2,13 +2,13 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Layout from '@/components/Layout';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
-import { getPostById, blogPosts, sortPostsByDate, type BlogPost } from '@/static/blog-data';
+import { getPostById, blogPosts, sortPostsByDate } from '@/static/blog-data';
 
 /**
  * 博客详情页面组件
  * 展示单篇博客文章的完整内容
  */
-const BlogPost = () => {
+const BlogPostPage = () => {
   const { id } = useParams<{ id: string }>();
   const { siteTitle } = useSiteMetadata();
 
@@ -22,17 +22,19 @@ const BlogPost = () => {
 
   // 获取相关文章（同标签的其他文章）
   const relatedPosts = blogPosts
-    .filter(p => 
-      p.id !== post.id && 
-      p.tags.some(tag => post.tags.includes(tag))
+    .filter(
+      (p) => p.id !== post.id && p.tags.some((tag) => post.tags.includes(tag))
     )
     .slice(0, 3);
 
   // 获取上一篇和下一篇文章
   const sortedPosts = sortPostsByDate(blogPosts);
-  const currentIndex = sortedPosts.findIndex(p => p.id === post.id);
+  const currentIndex = sortedPosts.findIndex((p) => p.id === post.id);
   const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
-  const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+  const nextPost =
+    currentIndex < sortedPosts.length - 1
+      ? sortedPosts[currentIndex + 1]
+      : null;
 
   /**
    * 格式化日期显示
@@ -43,7 +45,7 @@ const BlogPost = () => {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
-      weekday: 'long'
+      weekday: 'long',
     });
   };
 
@@ -53,7 +55,10 @@ const BlogPost = () => {
    */
   const renderContent = (content: string) => {
     return content.split('\n\n').map((paragraph, index) => (
-      <p key={index} className="mb-4 leading-relaxed text-gray-700 dark:text-gray-300">
+      <p
+        key={index}
+        className="mb-4 leading-relaxed text-gray-700 dark:text-gray-300"
+      >
         {paragraph}
       </p>
     ));
@@ -62,7 +67,9 @@ const BlogPost = () => {
   return (
     <Layout>
       <Helmet>
-        <title>{post.title} - {siteTitle}</title>
+        <title>
+          {post.title} - {siteTitle}
+        </title>
         <meta name="description" content={post.excerpt} />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
@@ -81,8 +88,18 @@ const BlogPost = () => {
             to="/blog"
             className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
           >
-            <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <svg
+              className="mr-2 h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
             返回博客列表
           </Link>
@@ -112,20 +129,50 @@ const BlogPost = () => {
 
           <div className="mb-6 flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400">
             <div className="flex items-center">
-              <svg className="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <svg
+                className="mr-2 h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
               </svg>
               {formatDate(post.date)}
             </div>
             <div className="flex items-center">
-              <svg className="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="mr-2 h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
-              {post.readTime} 分钟阅读
+              {post.readingTime} 分钟阅读
             </div>
             <div className="flex items-center">
-              <svg className="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              <svg
+                className="mr-2 h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
               </svg>
               老潘
             </div>
@@ -139,7 +186,7 @@ const BlogPost = () => {
         </header>
 
         {/* 文章内容 */}
-        <article className="prose prose-lg max-w-none dark:prose-invert">
+        <article className="prose prose-lg dark:prose-invert max-w-none">
           <div className="text-lg leading-relaxed">
             {renderContent(post.content)}
           </div>
@@ -153,15 +200,25 @@ const BlogPost = () => {
             </h3>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <span className="font-medium text-blue-800 dark:text-blue-200">发布日期：</span>
-                <span className="text-blue-700 dark:text-blue-300">{formatDate(post.date)}</span>
+                <span className="font-medium text-blue-800 dark:text-blue-200">
+                  发布日期：
+                </span>
+                <span className="text-blue-700 dark:text-blue-300">
+                  {formatDate(post.date)}
+                </span>
               </div>
               <div>
-                <span className="font-medium text-blue-800 dark:text-blue-200">阅读时长：</span>
-                <span className="text-blue-700 dark:text-blue-300">{post.readTime} 分钟</span>
+                <span className="font-medium text-blue-800 dark:text-blue-200">
+                  阅读时长：
+                </span>
+                <span className="text-blue-700 dark:text-blue-300">
+                  {post.readingTime} 分钟
+                </span>
               </div>
               <div className="sm:col-span-2">
-                <span className="font-medium text-blue-800 dark:text-blue-200">标签：</span>
+                <span className="font-medium text-blue-800 dark:text-blue-200">
+                  标签：
+                </span>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {post.tags.map((tag: string) => (
                     <span
@@ -195,7 +252,7 @@ const BlogPost = () => {
               {nextPost && (
                 <Link
                   to={`/blog/${nextPost.id}`}
-                  className="group rounded-lg border border-gray-200 p-4 text-right transition-all hover:border-blue-300 hover:shadow-md dark:border-gray-700 dark:hover:border-blue-600 sm:ml-auto"
+                  className="group rounded-lg border border-gray-200 p-4 text-right transition-all hover:border-blue-300 hover:shadow-md sm:ml-auto dark:border-gray-700 dark:hover:border-blue-600"
                 >
                   <div className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                     下一篇 →
@@ -228,8 +285,10 @@ const BlogPost = () => {
                       {relatedPost.excerpt.slice(0, 80)}...
                     </p>
                     <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                      <span>{new Date(relatedPost.date).toLocaleDateString('zh-CN')}</span>
-                      <span>{relatedPost.readTime} 分钟</span>
+                      <span>
+                        {new Date(relatedPost.date).toLocaleDateString('zh-CN')}
+                      </span>
+                      <span>{relatedPost.readingTime} 分钟</span>
                     </div>
                   </Link>
                 ))}
@@ -240,7 +299,7 @@ const BlogPost = () => {
           {/* 作者信息 */}
           <div className="rounded-lg bg-gray-50 p-6 dark:bg-gray-800">
             <div className="flex items-start space-x-4">
-              <div className="h-16 w-16 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-xl font-bold">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-xl font-bold text-white">
                 潘
               </div>
               <div className="flex-1">
@@ -267,4 +326,4 @@ const BlogPost = () => {
   );
 };
 
-export default BlogPost;
+export default BlogPostPage;
