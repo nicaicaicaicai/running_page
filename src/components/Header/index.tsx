@@ -71,7 +71,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="flex w-3/4 items-center justify-end text-right">
-          {navLinks.map((n, i) => (
+          {navLinks.map((n, i) =>
             n.url.startsWith('http') ? (
               <a
                 key={i}
@@ -91,7 +91,7 @@ const Header = () => {
                 {n.name}
               </Link>
             )
-          ))}
+          )}
           <div className="ml-4 flex items-center space-x-2">
             <button
               type="button"
