@@ -9,9 +9,16 @@ interface ISiteMetadataResult {
   }[];
 }
 
+/**
+ * 获取基础路径，确保不以斜杠结尾以避免双斜杠问题
+ */
 const getBasePath = () => {
   const baseUrl = import.meta.env.BASE_URL;
-  return baseUrl === '/' ? '' : baseUrl;
+  if (baseUrl === '/') {
+    return '';
+  }
+  // 移除末尾的斜杠以避免双斜杠问题
+  return baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
 };
 
 const data: ISiteMetadataResult = {
