@@ -72,13 +72,25 @@ const Header = () => {
         </div>
         <div className="flex w-3/4 items-center justify-end text-right">
           {navLinks.map((n, i) => (
-            <a
-              key={i}
-              href={n.url}
-              className="mr-3 text-lg lg:mr-4 lg:text-base"
-            >
-              {n.name}
-            </a>
+            n.url.startsWith('http') ? (
+              <a
+                key={i}
+                href={n.url}
+                className="mr-3 text-lg lg:mr-4 lg:text-base"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {n.name}
+              </a>
+            ) : (
+              <Link
+                key={i}
+                to={n.url.replace(/^\/[^/]+/, '')} // 移除 basePath 前缀，使用相对路径
+                className="mr-3 text-lg lg:mr-4 lg:text-base"
+              >
+                {n.name}
+              </Link>
+            )
           ))}
           <div className="ml-4 flex items-center space-x-2">
             <button
